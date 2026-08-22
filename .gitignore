@@ -1,0 +1,4 @@
+node_modules/
+globaltrotters.json
+.env
+dist/
