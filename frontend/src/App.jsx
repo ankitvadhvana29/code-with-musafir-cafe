@@ -5,6 +5,7 @@ import Login from './pages/Login.jsx';
 import Signup from './pages/Signup.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import TripDetail from './pages/TripDetail.jsx';
+import TripCalendar from './components/TripCalendar.jsx';
 
 import Search from './pages/Search.jsx';
 import Analytics from './pages/Analytics.jsx';
@@ -69,6 +70,14 @@ function AppRoutes() {
           </ProtectedLayout>
         }
       />
+      <Route
+          path="/trips/:id/calendar"
+          element={
+            <ProtectedLayout>
+              <TripCalendar />
+            </ProtectedLayout>
+          }
+        />
       <Route
         path="/search"
         element={
