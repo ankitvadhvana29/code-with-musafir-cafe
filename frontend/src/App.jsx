@@ -5,7 +5,7 @@ import Login from './pages/Login.jsx';
 import Signup from './pages/Signup.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import TripDetail from './pages/TripDetail.jsx';
-import CreateTrip from './pages/CreateTrip.jsx';
+
 import Search from './pages/Search.jsx';
 import Shared from './pages/Shared.jsx';
 import Sidebar from './components/Sidebar.jsx';
@@ -50,7 +50,6 @@ function AppRoutes() {
 
   return (
     <Routes>
-      <Route path="/trips/new" element={<ProtectedLayout><CreateTrip /></ProtectedLayout>} />
       <Route path="/login" element={user ? <Navigate to="/" replace /> : <Login />} />
       <Route path="/signup" element={user ? <Navigate to="/" replace /> : <Signup />} />
       <Route
