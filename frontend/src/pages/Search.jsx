@@ -8,6 +8,9 @@ export default function Search() {
   const [trips, setTrips] = useState([]);
   const [selectedTrip, setSelectedTrip] = useState('');
   const [status, setStatus] = useState('');
+  const [addingItem, setAddingItem] = useState(null);
+  const [cityStartDate, setCityStartDate] = useState('');
+  const [cityEndDate, setCityEndDate] = useState('');
 
   const runSearch = (q) => {
     setLoading(true);
@@ -27,7 +30,7 @@ export default function Search() {
     runSearch(query);
   };
 
-  const handleAdd = async (item) => {
+  const openAddForm = (item) => {
     if (!selectedTrip) {
       setStatus('Pahela ek trip select karo');
       return;
@@ -36,14 +39,22 @@ export default function Search() {
       setStatus('Activities fakt trip ni andar city add karya pachi umeri shakay chhe.');
       return;
     }
+    setAddingItem(item);
+    setCityStartDate('');
+    setCityEndDate('');
+    setStatus('');
+  };
+
+  const confirmAdd = async () => {
     try {
       await api.addCity(selectedTrip, {
-        city_name: item.name,
-        country: item.country,
-        start_date: '',
-        end_date: '',
+        city_name: addingItem.name,
+        country: addingItem.country,
+        start_date: cityStartDate,
+        end_date: cityEndDate,
       });
-      setStatus(`${item.name} trip ma add thai gayu!`);
+      setStatus(`${addingItem.name} trip ma add thai gayu!`);
+      setAddingItem(null);
     } catch (err) {
       setStatus(err.message);
     }
@@ -93,7 +104,7 @@ export default function Search() {
       ) : (
         <div className="search-grid">
           {results.map((item, i) => (
-            <div className="result-card" key={i} onClick={() => handleAdd(item)} style={{ cursor: 'pointer' }}>
+            <div className="result-card" key={i} onClick={() => openAddForm(item)} style={{ cursor: 'pointer' }}>
               <span className="tag">{item.type}</span>
               <h3>{item.name}</h3>
               <div className="meta">
@@ -102,6 +113,25 @@ export default function Search() {
               {item.type === 'city' && <div className="sub" style={{ marginTop: 6 }}>+ Add to Trip</div>}
             </div>
           ))}
+        </div>
+      )}
+
+      {addingItem && (
+        <div style={{
+          position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50
+        }} onClick={() => setAddingItem(null)}>
+          <div className="card" style={{ maxWidth: 360, width: '90%' }} onClick={(e) => e.stopPropagation()}>
+            <h3 style={{ marginBottom: 12 }}>Add {addingItem.name} to trip</h3>
+            <label style={{ fontSize: '0.85rem' }}>Start date</label>
+            <input type="date" value={cityStartDate} onChange={(e) => setCityStartDate(e.target.value)} style={{ width: '100%', marginBottom: 10 }} />
+            <label style={{ fontSize: '0.85rem' }}>End date</label>
+            <input type="date" value={cityEndDate} onChange={(e) => setCityEndDate(e.target.value)} style={{ width: '100%', marginBottom: 16 }} />
+            <div style={{ display: 'flex', gap: 10 }}>
+              <button className="btn btn-primary" onClick={confirmAdd}>Add</button>
+              <button className="btn btn-ghost" onClick={() => setAddingItem(null)}>Cancel</button>
+            </div>
+          </div>
         </div>
       )}
     </div>
