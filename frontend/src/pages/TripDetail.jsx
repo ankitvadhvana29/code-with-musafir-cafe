@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { api } from '../api.js';
 
+import TripMap from '../components/TripMap.jsx';
+
 const CATEGORIES = ['General', 'Food', 'Stay', 'Transport', 'Sightseeing', 'Shopping'];
 
 export default function TripDetail() {
@@ -121,6 +123,8 @@ export default function TripDetail() {
           </div>
         </div>
       )}
+
+      <TripMap cities={trip.cities} />
 
       <h2 style={{ fontSize: '1.2rem', marginBottom: 6 }}>Route</h2>
       <div className="sub" style={{ marginBottom: 4 }}>Add cities in the order you'll visit them, then attach activities and costs to each stop.</div>
