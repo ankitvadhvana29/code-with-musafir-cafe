@@ -9,6 +9,7 @@ import TripCalendar from './components/TripCalendar.jsx';
 
 import Search from './pages/Search.jsx';
 import Analytics from './pages/Analytics.jsx';
+import Profile from './pages/Profile.jsx';
 import Shared from './pages/Shared.jsx';
 import Sidebar from './components/Sidebar.jsx';
 
@@ -52,6 +53,14 @@ function AppRoutes() {
 
   return (
     <Routes>
+      <Route
+          path="/profile"
+          element={
+            <ProtectedLayout>
+              <Profile />
+            </ProtectedLayout>
+          }
+        />
       <Route path="/login" element={user ? <Navigate to="/" replace /> : <Login />} />
       <Route path="/signup" element={user ? <Navigate to="/" replace /> : <Signup />} />
       <Route

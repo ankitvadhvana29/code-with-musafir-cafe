@@ -27,6 +27,9 @@ async function request(path, { method = 'GET', body, auth = true } = {}) {
 export const api = {
   signup: (payload) => request('/auth/signup', { method: 'POST', body: payload, auth: false }),
   login: (payload) => request('/auth/login', { method: 'POST', body: payload, auth: false }),
+  getMe: () => request('/auth/me'),
+  updateProfile: (payload) => request('/auth/me', { method: 'PATCH', body: payload }),
+  changePassword: (payload) => request('/auth/change-password', { method: 'POST', body: payload }),
 
   listTrips: () => request('/trips'),
   createTrip: (payload) => request('/trips', { method: 'POST', body: payload }),
@@ -38,10 +41,8 @@ export const api = {
   addCity: (tripId, payload) => request(`/trips/${tripId}/cities`, { method: 'POST', body: payload }),
   removeCity: (tripId, cityId) => request(`/trips/${tripId}/cities/${cityId}`, { method: 'DELETE' }),
 
-  addActivity: (cityId, payload) =>
-    request(`/trips/cities/${cityId}/activities`, { method: 'POST', body: payload }),
-  removeActivity: (activityId) => request(`/trips/activities/${activityId}`, { method: 'DELETE' }),
+  addActivity: (cityId, payload) => request(`/cities/${cityId}/activities`, { method: 'POST', body: payload }),
+  removeActivity: (activityId) => request(`/activities/${activityId}`, { method: 'DELETE' }),
 
-  search: (q) => request(`/public/search?q=${encodeURIComponent(q)}`, { auth: false }),
-  publicTrips: () => request('/public/trips', { auth: false }),
+  search: (q) => request(`/search?q=${encodeURIComponent(q || '')}`, { auth: false }),
 };
