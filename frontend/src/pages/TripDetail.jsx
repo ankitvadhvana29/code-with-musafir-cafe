@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { api } from '../api.js';
-
 import TripMap from '../components/TripMap.jsx';
+import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const CATEGORIES = ['General', 'Food', 'Stay', 'Transport', 'Sightseeing', 'Shopping'];
+const CHART_COLORS = ['#E8794A', '#2E7D6B', '#16405C', '#C7986B', '#8A5A44', '#3E7CB1'];
 
 export default function TripDetail() {
   const { id } = useParams();
@@ -103,7 +104,7 @@ export default function TripDetail() {
       </div>
 
       {budget && (
-        <div className="budget-summary">
+        <div className="budget-summary" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1.2fr', gap: 16 }}>
           <div className="card">
             <span style={{ fontSize: '0.82rem', color: 'var(--slate-soft)' }}>Total budget</span>
             <b className="total">₹{budget.total_budget.toLocaleString()}</b>
@@ -120,6 +121,24 @@ export default function TripDetail() {
                 <span className="val">₹{c.total.toLocaleString()}</span>
               </div>
             ))}
+          </div>
+          <div className="card">
+            <span style={{ fontSize: '0.82rem', color: 'var(--slate-soft)', display: 'block', marginBottom: 6 }}>Breakdown</span>
+            {budget.by_category.length === 0 ? (
+              <span style={{ fontSize: '0.85rem', color: 'var(--slate-soft)' }}>No expenses yet</span>
+            ) : (
+              <ResponsiveContainer width="100%" height={180}>
+                <PieChart>
+                  <Pie data={budget.by_category} dataKey="total" nameKey="category" cx="50%" cy="50%" outerRadius={70}>
+                    {budget.by_category.map((_, i) => (
+                      <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip formatter={(v) => `₹${v.toLocaleString()}`} />
+                  <Legend wrapperStyle={{ fontSize: '0.75rem' }} />
+                </PieChart>
+              </ResponsiveContainer>
+            )}
           </div>
         </div>
       )}
