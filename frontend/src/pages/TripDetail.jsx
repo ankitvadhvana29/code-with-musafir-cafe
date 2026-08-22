@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { api } from '../api.js';
 import TripMap from '../components/TripMap.jsx';
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
@@ -99,6 +99,7 @@ export default function TripDetail() {
             </span>
             <button className={`switch ${trip.is_public ? 'on' : ''}`} onClick={toggleShare} aria-label="Toggle sharing" />
           </div>
+          <Link to={`/trips/${id}/calendar`} className="btn btn-ghost">Timeline view</Link>
           <button className="btn-danger" onClick={handleDeleteTrip}>Delete trip</button>
         </div>
       </div>
