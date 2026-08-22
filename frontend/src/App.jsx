@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard.jsx';
 import TripDetail from './pages/TripDetail.jsx';
 
 import Search from './pages/Search.jsx';
+import Analytics from './pages/Analytics.jsx';
 import Shared from './pages/Shared.jsx';
 import Sidebar from './components/Sidebar.jsx';
 
@@ -76,6 +77,18 @@ function AppRoutes() {
           </ProtectedLayout>
         }
       />
+
+<Route
+          path="/analytics"
+          element={
+            <ProtectedLayout>
+              <Analytics />
+            </ProtectedLayout>
+          }
+        />
+
+
+
       <Route
         path="/shared"
         element={

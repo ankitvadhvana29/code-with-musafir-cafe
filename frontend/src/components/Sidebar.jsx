@@ -15,6 +15,9 @@ export default function Sidebar() {
         <NavLink to="/search" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
           Discover
         </NavLink>
+        <NavLink to="/analytics" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
+                  Analytics
+                </NavLink>
         <NavLink to="/shared" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
           Shared trips
         </NavLink>
